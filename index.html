@@ -1,0 +1,133 @@
+
+
+<!-- Template borrowed from the earthquake map -->
+
+
+<html>
+	<head>
+		<title>Schools and the Regulated Floodplain in Pierce County, WA</title>
+		<!-- the Leaflet CSS -->
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"/>
+
+		<!-- the Leaflet JavaScript library -->
+		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+		<!-- link to the JQuery library used to load GeoJSON files -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+		<!-- link to leaflet legend library, one of four steps to embed the legend -->
+		<script src= "https://cdn.jsdelivr.net/npm/leaflet-legend@1.0.2/leaflet-legend.min.js"></script>
+
+
+		<!--CSS styles-->
+		<style>
+			body {
+				background-color: #D3D3D3;
+				font-family: Tahoma, sans-serif;
+				max-width: 900px;
+				margin: auto;
+				}
+
+
+			#legend {
+				line-height: 2px;
+				background: white;
+				opacity: 0.9;
+				padding:5px 25px 5px 0px;
+				}
+
+		</style>
+	</head>
+
+	<body>
+
+		<h1>Schools and the regulated floodplain in Pierce County</h1>
+
+		<!-- code where we create and name the container that holds the map -->
+		<div id="map" style="height: 80%"></div>
+
+		<p>Schools in relation to the regulated floodplain throughout Pierce County, Washington. Schools within or close to the floodplain may be at higher risk of flooding during a major storm surge. Click on a marker for more information about each school.</p>
+
+		<p>The Digital Flood Insurance Rate Map data and school locations are provided by the <a href="https://gisdata-piercecowa.opendata.arcgis.com/" target="_blank">Pierce County Open GeoSpatial Data Portal</a>.</p>
+
+		<!-- building out the legend in HTML -->
+		<div id="legend">
+				<h2><center>Schools by Type</center></h2>
+				<ul style="list-style-type:none">
+					<li>
+						<svg width="24" height="24">
+							<circle cx="12" cy="14" r="8" stroke="#ff0000" stroke-width="3" fill="#ff0000" fill-opacity="1"/>
+						</svg>
+						<text>Elementary or primary</text>
+					</li>
+					<li>
+						<svg width="24" height="24">
+							<circle cx="12" cy="14" r="8" stroke="#8B0000" stroke-width="3" fill="#8B0000" fill-opacity="1"/>
+						</svg>
+						<text>Middle or junior high</text>
+					</li>
+					<li>
+						<svg width="24" height="24">
+							<circle cx="12" cy="14" r="8" stroke="#0000FF" stroke-width="3" fill="#0000FF" fill-opacity="1"/>
+						</svg>
+						<text>High school</text>
+					</li>
+					<li>
+						<svg width="24" height="24">
+							<circle cx="12" cy="14" r="8" stroke="#00008B" stroke-width="3" fill="#00008B" fill-opacity="1"/>
+						</svg>
+						<text x="0" y="0">College, university or private</text>
+					</li>
+				</ul>
+			</div>
+
+
+			<!-- JS code where we build the map and its functionality -->
+		<script>
+				var mymap = L.map('map').setView([47.080, -122.286], 10);
+				var basemap = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}{r}.png', {
+					attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="https://gisdata-piercecowa.opendata.arcgis.com/">Pierce County Open GeoSpatial Data Portal</a>',
+				}).addTo(mymap);
+
+
+				//Creating ordered categorical data
+				//Floodplain
+				$.getJSON("https://opendata.arcgis.com/datasets/3d6338fbf4244c37b584dc62957055ae_0.geojson",function(data){
+						L.geoJson(data).addTo(mymap);
+				});
+
+				//Schools
+				$.getJSON("https://opendata.arcgis.com/datasets/f67ca6743cec4a05a9bbfad7050bc4e5_0.geojson",function(data){
+
+
+				// add GeoJSON layer to the map once the file is loaded
+				L.geoJson(data, {
+					pointToLayer: function(feature, latlng){
+		                		var colorCode,
+						schoolType = feature.properties.TYPE;
+		                			if (schoolType === "ELEM") colorCode = '#ff0000';
+													else if (schoolType === "PRIM") colorCode = '#ff0000';
+													else if (schoolType === "MID") colorCode = '#8B0000';
+		                			else if (schoolType === "JRHIGH") colorCode = '#8B0000';
+													else if (schoolType === "HIGH") colorCode = '#0000FF';
+													else colorCode = '#00008B';
+		                	var marker = L.circleMarker(latlng, {radius: 4, color: colorCode, fillOpacity: 1});
+											marker.bindPopup("Name: " + feature.properties.NAME + "<br>Address: " + feature.properties.ADDRESS + ", " + feature.properties.CITY + "<br><a href =" + feature.properties.WEBSITE + ">More info</a>");
+											return marker;
+										}
+									}).addTo(mymap);
+					});
+
+
+
+					//puts the legend in the map, at bottom-right
+					var Legend =  new L.Control.Legend({
+						position: 'bottomleft',
+					});
+
+					mymap.addControl(Legend);
+					$(".legend-container").append( $("#legend") );
+
+		</script>
+	</body>
+</html>
