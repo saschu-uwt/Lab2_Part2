@@ -73,7 +73,7 @@
 
 	<body>
 
-		<h1>Schools and the regulated floodplain in Pierce County</h1>
+		<h1 style="text-align:center">Schools and the regulated floodplain in Pierce County</h1>
 
 		<!-- code where we create and name the container that holds the map -->
 		<div id="map" style="height: 80%"></div>
@@ -156,13 +156,15 @@
 
 
 
-					//puts the legend in the map, at bottom-right
+					//puts the legend in the map, at bottom-left
 					var Legend =  new L.Control.Legend({
 						position: 'bottomleft',
 					});
 
 					mymap.addControl(Legend);
 					$(".legend-container").append( $("#legend") );
+
+
 
 		</script>
 	</body>
