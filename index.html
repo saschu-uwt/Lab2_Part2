@@ -5,7 +5,7 @@
 
 <html>
 	<head>
-		<title>Schools and the Regulated Floodplain in Pierce County, WA</title>
+		<title>Schools and the Floodplain</title>
 		<!-- the Leaflet CSS -->
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"/>
 
@@ -23,10 +23,16 @@
 		<style>
 			body {
 				background-color: #D3D3D3;
-				font-family: Tahoma, sans-serif;
+				font-family: Arial, sans-serif;
 				max-width: 900px;
-				margin: auto;
-				}
+				margin: 4em;
+			}
+
+			h1 {
+				margin-bottom:40;
+				text-transform: uppercase;
+				text-align: center;
+			}
 
 
 			#legend {
@@ -73,14 +79,14 @@
 
 	<body>
 
-		<h1 style="text-align:center">Schools and the regulated floodplain in Pierce County</h1>
+		<h1>Schools and the regulated floodplain</h1>
 
 		<!-- code where we create and name the container that holds the map -->
 		<div id="map" style="height: 80%"></div>
 
-		<p>Schools in relation to the regulated floodplain throughout Pierce County, Washington. Schools within or close to the floodplain may be at higher risk of flooding during a major storm surge. Click on a marker for more information about each school.</p>
+		<p style="margin-top:3em">Schools in relation to the regulated floodplain throughout Pierce County, Washington. Schools within or close to the floodplain may be at higher risk of flooding during a major storm surge. Click on a marker for more information about each school.</p>
 
-		<p>The Digital Flood Insurance Rate Map data and school locations are provided by the <a href="https://gisdata-piercecowa.opendata.arcgis.com/" target="_blank">Pierce County Open GeoSpatial Data Portal</a>.</p>
+		<p style="font-size:.7em">The Digital Flood Insurance Rate Map data and school locations are provided by the <a href="https://gisdata-piercecowa.opendata.arcgis.com/" target="_blank">Pierce County Open GeoSpatial Data Portal</a>.</p>
 
 		<div class="center">
 			<a href="https://saschu-uwt.github.io/portfolio/"><button class="button button1">Back to Portfolio</button></a>
